@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+            background-image: url(./purple.jpg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+    td {
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 2rem;
+      color: white;
+      transition: all 0.5s;
+    }
+
+    .hoverColor:hover {
+      background-color: #a18cd1;
+      cursor: pointer;
+    }
+
+    table {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+      filter:
+                drop-shadow(0 0 5px rgb(135, 126, 146)) drop-shadow(0 0 20px rgb(213, 202, 231));
+    }
+
+  </style>
+</head>
+<body>
+  <table>
+    <tr>
+      <td colspan="4" id='input'>0</td>
+    </tr>
+    <tr>
+      <td class="hoverColor">C</td>
+      <td class="hoverColor">/</td>
+      <td class="hoverColor">*</td>
+      <td class="hoverColor">-</td>
+    </tr>
+    <tr>
+      <td class="hoverColor">7</td>
+      <td class="hoverColor">8</td>
+      <td class="hoverColor">9</td>
+      <td class="hoverColor" rowspan="2">+</td>
+    </tr>
+    <tr>
+      <td class="hoverColor">4</td>
+      <td class="hoverColor">5</td>
+      <td class="hoverColor">6</td>
+    </tr>
+    <tr>
+      <td class="hoverColor">1</td>
+      <td class="hoverColor">2</td>
+      <td class="hoverColor">3</td>
+      <td class="hoverColor" rowspan="2">=</td>
+    </tr>
+    <tr>
+      <td class="hoverColor" colspan="2">0</td>
+      <td class="hoverColor">.</td>
+    </tr>
+  </table>
+  <script>
+    const input = document.getElementById('input')
+    const tds = document.querySelectorAll('td:not(#input)')
+
+    for (const td of tds) {
+      td.onclick = () => {
+        const text = td.innerText
+        if (text === '=') {
+          // 執行算式
+          input.innerText = eval(input.innerText)
+        } else if (text === 'C') {
+          // 重設
+          input.innerText = '0'
+        } else {
+          // 一般按鍵
+          if (input.innerText === '0') {
+            input.innerText = text
+          } else {
+            input.innerText += text 
+          }
+        }
+      }
+    }
+
+    document.onkeydown = event => {
+      if (event.key === 'Enter') {
+        input.innerText = eval(input.innerText)
+      } else if (
+        !isNaN(parseInt(event.key)) ||
+        event.key === '+' ||
+        event.key === '-' ||
+        event.key === '*' ||
+        event.key === '/' ||
+        event.key === '.'
+      ) {
+        if (input.innerText === '0') {
+          input.innerText = event.key
+        } else {
+          input.innerText += event.key
+        }
+      }
+    }
+  </script>
+</body>
+</html>
